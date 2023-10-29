@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  mysql:
+    container_name: mysql80
+    volumes: 
+      - ./mysql/:/var/lib/mysql
+    hostname: mysql
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: tenohira_wp
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: password
+
+  wordpress:
+    container_name: wordpress
+    hostname: wordpress
+    image: wordpress:latest
+    volumes:
+      - ./wordpress/themes:/var/www/html/wp-content/themes
+      - ./wordpress/plugins:/var/www/html/wp-content/plugins
+      - ./wordpress/uploads:/var/www/html/wp-content/uploads
+    links:
+      - mysql
+    depends_on:
+      - mysql
+    ports:
+      - "8080:80"
+    environment:
+      - WORDPRESS_DB_HOST=mysql
+      - WORDPRESS_DB_NAME=tenohira_wp
+      - WORDPRESS_DB_USER=admin
+      - WORDPRESS_DB_PASSWORD=password
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - 10099:80
