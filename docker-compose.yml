@@ -10,7 +10,7 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: tenohira_wp
+      MYSQL_DATABASE: sample_wp
       MYSQL_USER: admin
       MYSQL_PASSWORD: password
 
@@ -30,7 +30,7 @@ services:
       - "8080:80"
     environment:
       - WORDPRESS_DB_HOST=mysql
-      - WORDPRESS_DB_NAME=tenohira_wp
+      - WORDPRESS_DB_NAME=sample_wp
       - WORDPRESS_DB_USER=admin
       - WORDPRESS_DB_PASSWORD=password
 
